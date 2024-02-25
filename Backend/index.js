@@ -1,10 +1,26 @@
 const express = require("express");
 const cors = require('cors');
-const { connection } = require('./config/db');
+const bodyParser = require('body-parser');
+const { connection } = require('./configs/db');
+const urlRouter = require('./routes/urlRoutes')
+const userRouter =  require('./routes/userRoutes')
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/',(req,res)=> {
+    res.send("Welcome to URL-Shortner")
+})
+
+app.use('/url',urlRouter);
+app.use('/user',userRouter);
+
+
+
+
 
 const Port = process.env.PORT || 8000; 
 
